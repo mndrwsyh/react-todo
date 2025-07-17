@@ -28,7 +28,35 @@ function App() {
       >
         <div className="card-body">
           <h3 className="card-title mb-3">My Todo List</h3>
-          <TodoList list={list} />
+          <TodoList
+            list={list}
+            onDelete={(id) => {
+              const updatedList = list.filter((item) => {
+                if (item.id !== id) {
+                  return true; //keep
+                } else {
+                  return false; //dump
+                }
+              });
+
+              //update the list state
+              setList(updatedList);
+            }}
+            onChecked={(id, isCompleted) => {
+              setList(
+                list.map((item) => {
+                  if (item.id === id) {
+                    if (item.isCompleted === false) {
+                      item.isCompleted = true;
+                    } else {
+                      item.isCompleted = false;
+                    }
+                  }
+                  return item;
+                })
+              );
+            }}
+          />
           <div className="mt-4">
             <AddTodoForm
               onAddNew={(newvalue) => {

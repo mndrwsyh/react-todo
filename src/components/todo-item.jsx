@@ -1,15 +1,25 @@
 function TodoItem(props) {
-  const { name, isCompleted } = props;
+  const { id, name, isCompleted, onChecked, onDelete } = props;
+  const taskRemove = () => {
+    const confirmRemove = confirm("Are you sure you want to remove this task?");
+    if (confirmRemove) {
+      onDelete(id);
+    }
+  };
+
+  const updateChecked = () => {
+    onChecked(id, isCompleted);
+  };
 
   return (
     <li className="list-group-item d-flex justify-content-between align-items-center">
       <div>
         {isCompleted ? (
-          <button className="btn btn-sm btn-success">
+          <button onClick={updateChecked} className="btn btn-sm btn-success">
             <i className="bi bi-check-square"></i>
           </button>
         ) : (
-          <button className="btn btn-sm btn-light">
+          <button onClick={updateChecked} className="btn btn-sm btn-light">
             <i className="bi bi-square"></i>
           </button>
         )}
@@ -21,7 +31,7 @@ function TodoItem(props) {
         </span>
       </div>
       <div>
-        <button className="btn btn-sm btn-danger">
+        <button onClick={taskRemove} className="btn btn-sm btn-danger">
           <i className="bi bi-trash"></i>
         </button>
       </div>
